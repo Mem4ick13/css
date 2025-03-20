@@ -4,7 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Лабораторная работа</title>
-    <link rel="stylesheet" href="mashutin.css"><mashutin class="css"></mashutin> 
+    <link rel="stylesheet" href="mashutin.css"><mashutin class="css"></mashutin>
+    <script>
+        async function fetchNews() {
+            const response = await fetch('/api/news');
+            const news = await response.json();
+            const newsList = document.getElementById('news-list');
+            newsList.innerHTML = '';
+            news.forEach(item => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${item.title}: ${item.content}`;
+                newsList.appendChild(listItem);});}
+        window.onload = fetchNews;
+    </script>
 </head>
 <body>
     <h1>Машутин Сергей Сергеевич</h1>
@@ -36,6 +48,9 @@
             </tr>
         </tbody>
     </table>
+    <h3>Новости</h3>
     <p>это <del>зачеркнутый</del> <mark>а это выделенный</mark>.</p>
+    
+    <ul id="news-list"></ul>
 </body>
 </html>
