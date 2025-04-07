@@ -1,0 +1,25 @@
+#!/sbin/openrc-run
+
+command="/path/to/your/project/venv/bin/python"
+command_args="/path/to/your/project/app.py"
+pidfile="/run/flask_app.pid"
+
+depend() {
+    need net
+}
+
+start_pre() {
+    checkpath --directory /run
+}
+
+start() {
+    ebegin "Starting Flask app"
+    start-stop-daemon --start --background --make-pidfile --pidfile ${pidfile} --exec ${command} -- ${command_args}
+    eend $?
+}
+
+stop() {
+    ebegin "Stopping Flask app"
+    start-stop-daemon --stop --pidfile ${pidfile}
+    eend $?
+}
